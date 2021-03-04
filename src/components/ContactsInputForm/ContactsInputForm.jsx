@@ -21,8 +21,8 @@ const ContactsInputForm = ({ contacts, onSubmitForm }) => {
     }
 
     const normalizedName = name.toLowerCase().trim();
-    const isExistingUser = contacts.find(contact =>
-      contact.name.toLowerCase().includes(normalizedName),
+    const isExistingUser = contacts.find(
+      contact => contact.name.toLowerCase() === normalizedName,
     );
 
     if (isExistingUser) {
