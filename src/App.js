@@ -1,12 +1,14 @@
-import { useState } from 'react';
-import Section from './components/Section';
-import ContactsInputForm from './components/ContactsInputForm';
-import Filter from './components/Filter';
-import Contacts from './components/Contacts';
-import Notification from './components/Notification';
+import { useState, useEffect } from 'react';
+import Section from 'components/Section';
+import ContactsInputForm from 'components/ContactsInputForm';
+import Filter from 'components/Filter';
+import Contacts from 'components/Contacts';
+import Notification from 'components/Notification';
 
 const App = () => {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState(
+    JSON.parse(window.localStorage.getItem('contacts')) ?? [],
+  );
   const [filter, setFilter] = useState('');
 
   const handleSubmitForm = contact => {
@@ -25,6 +27,19 @@ const App = () => {
 
   const handleDeleteContact = id =>
     setContacts(prevState => prevState.filter(contact => contact.id !== id));
+
+  // componentdidMount
+
+  // useEffect(() => {
+  //   setContacts(JSON.parse(window.localStorage.getItem('contacts')) ?? []);
+  // }, []); // []-запускается только при первом рендере и больше никогда,
+  // если не добавить условие( ?? []),
+  // то при отсутствии localStorage запишет null в setContacts, что вызовет ошибку
+
+  // componentdidUpdate
+  useEffect(() => {
+    window.localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]); // [contacts]-запускается при изменении contacts
 
   return (
     <>
